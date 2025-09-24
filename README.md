@@ -121,4 +121,4 @@ To run this project locally, follow these steps:
     npm start
     ```
 
-This will run the app in development mode. Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+This will run the app in development mode. Open the project on the localhost in your browser.
