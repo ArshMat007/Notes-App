@@ -4,20 +4,19 @@ import { AppBar, Toolbar, Typography, IconButton, InputBase, Box, Button, Avatar
 import { Menu } from '@mui/icons-material';
 import { styled, alpha } from '@mui/material/styles';
 import SearchIcon from '@mui/icons-material/Search';
-
 import { DataContext } from '../context/DataProvider';
 import { auth } from '../firebase';
 import { signOut } from 'firebase/auth';
 
 const Header = styled(AppBar)`
-    z-index: 1201;
+    z-index: 1201;   
     background: #fff;
     height: 70px;
     box-shadow: inset 0 -1px 0 0 #dadce0;
-`;
+`; // z-index: 1201;  ensures the header is above the sidebar.//
 
 const Heading = styled(Typography)`
-    color: #5F6368;
+    color: #54595fff;
     font-size: 24px;
     margin-left: 25px;
 `;
@@ -29,15 +28,9 @@ const Search = styled('div')(({ theme }) => ({
     '&:hover': {
         backgroundColor: alpha(theme.palette.common.black, 0.1),
     },
-    marginRight: theme.spacing(2),
-    marginLeft: 0,
+    margin: '0 auto',
     width: '100%',
-    [theme.breakpoints.up('sm')]: {
-        marginLeft: theme.spacing(9),
-        width: 'auto',
-    },
-    flexGrow: 1,
-    maxWidth: '720px',
+    maxWidth: '700px',
 }));
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
@@ -57,11 +50,16 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
         paddingLeft: `calc(1em + ${theme.spacing(4)})`,
         transition: theme.transitions.create('width'),
         width: '100%',
+        '&::placeholder': {
+            color: '#383535ff',
+            opacity: 1,
+        },
     },
 }));
 
+
+
 const HeaderBar = ({ open, handleDrawer }) => {
-    const logo = '/logo.png';
     const { setSearchQuery, user } = useContext(DataContext);
 
     const handleSignOut = () => {
@@ -69,17 +67,19 @@ const HeaderBar = ({ open, handleDrawer }) => {
     };
 
     return (
-        <Header open={open}>
-            <Toolbar>
-                <IconButton
-                    onClick={handleDrawer}
-                    edge="start"
-                    sx={{ marginRight: '20px' }}
-                >
-                    <Menu />
-                </IconButton>
-                <img src={logo} alt="logo" style={{ width: 40, height: 40 }} />
-                <Heading>Arsh Keeps</Heading>
+        <Header open={open} sx={{ backgroundColor: "#fcfeffff" }}>
+            <Toolbar sx={{ justifyContent: 'space-between' }}>
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <IconButton
+                        onClick={handleDrawer}
+                        edge="start"
+                        sx={{ marginRight: '20px' }}
+                    >
+                        <Menu />
+                    </IconButton>
+
+                    <Heading>Arsh Keeps</Heading>
+                </Box>
                 <Search>
                     <SearchIconWrapper>
                         <SearchIcon />
@@ -87,13 +87,15 @@ const HeaderBar = ({ open, handleDrawer }) => {
                     <StyledInputBase
                         placeholder="Search…"
                         inputProps={{ 'aria-label': 'search' }}
-                        onChange={(e) => setSearchQuery(e.target.value)}
+                        onChange={(e) => setSearchQuery(e.target.value)} //The onChange handler runs.
+                                                                        // It takes the input (e.target.value) and calls setSearchQuery(...).//
                     />
                 </Search>
-                <Box sx={{ flexGrow: 1 }} />
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 2}}>
                     {/* This component now only renders if a user is logged in */}
-                    <Avatar src={user?.photoURL} alt={user?.displayName} />
+                    <Avatar src={user?.photoURL} alt={user?.displayName || user?.email}>
+                        {user?.email?.[0].toUpperCase()}
+                    </Avatar>
                     <Button variant="contained" onClick={handleSignOut}>Sign Out</Button>
                 </Box>
             </Toolbar>

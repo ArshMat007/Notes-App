@@ -1,14 +1,51 @@
-
-import { Box, Button, Typography } from '@mui/material';
-import { GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
+import { useState, useContext } from 'react';
+import { Box, Button, Typography, TextField, Tabs, Tab } from '@mui/material';
+import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase';
+import { DataContext } from '../context/DataProvider';
 
 const LoginPage = () => {
+    const { showNotification } = useContext(DataContext);
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [tab, setTab] = useState('signin');
 
-    const handleSignIn = () => {
-        const provider = new GoogleAuthProvider();
-        provider.setCustomParameters({ prompt: 'select_account' });
-        signInWithPopup(auth, provider).catch(error => console.error(error));
+    const handleAuthAction = async () => {
+        if (tab === 'signin') {
+            try {
+                await signInWithEmailAndPassword(auth, email, password);
+                // The onAuthStateChanged listener in DataProvider will handle the redirect.
+            } catch (error) {
+                console.error("Sign-in error:", error);
+                showNotification(getFriendlyErrorMessage(error.code), 'error');
+            }
+        } else {
+            try {
+                await createUserWithEmailAndPassword(auth, email, password);
+                showNotification('Account created successfully! Please sign in.', 'success');
+                setTab('signin'); // Switch to sign-in tab after successful sign-up
+            } catch (error) {
+                console.error("Sign-up eroor:", error);
+                showNotification(getFriendlyErrorMessage(error.code), 'error');
+            }
+        }
+    };
+
+    const getFriendlyErrorMessage = (errorCode) => {
+        switch (errorCode) {
+            case 'auth/invalid-email':
+                return 'Please enter a valid email address.';
+            case 'auth/user-not-found':
+                return 'No account found with this email. Please sign up.';
+            case 'auth/wrong-password':
+                return 'Incorrect password. Please try again.';
+            case 'auth/email-already-in-use':
+                return 'This email is already in use. Please sign in.';
+            case 'auth/weak-password':
+                return 'Password should be at least 6 characters long.';
+            default:
+                return 'An unexpected error occurred. Please try again.';
+        }
     };
 
     return (
@@ -18,12 +55,45 @@ const LoginPage = () => {
             alignItems: 'center',
             justifyContent: 'center',
             height: '100vh',
-            gap: 4,
         }}>
-            <Typography variant="h3">Arsh Keeps</Typography>
-            <Button variant="contained" onClick={handleSignIn}>
-                Sign In with Google
-            </Button>
+            <Box sx={{ width: '100%', maxWidth: 400, p: 3, boxShadow: 3, borderRadius: 2, bgcolor: 'background.paper' }}>
+                <Typography variant="h4" component="h1" gutterBottom align="center">
+                    Arsh Keeps
+                </Typography>
+                <Tabs value={tab} onChange={(e, newValue) => setTab(newValue)} centered>
+                    <Tab label="Sign In" value="signin" />
+                    <Tab label="Sign Up" value="signup" />
+                </Tabs>
+                <Box component="form" sx={{ mt: 3 }}>
+                    <TextField
+                        label="Email Address"
+                        type="email"
+                        fullWidth
+                        required
+                        margin="normal"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                    <TextField
+                        label="Password"
+                        type="password"
+                        fullWidth
+                        required
+                        margin="normal"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        onKeyPress={(e) => e.key === 'Enter' && handleAuthAction()}
+                    />
+                    <Button
+                        fullWidth
+                        variant="contained"
+                        sx={{ mt: 3, mb: 2 }}
+                        onClick={handleAuthAction}
+                    >
+                        {tab === 'signin' ? 'Sign In' : 'Sign Up'}
+                    </Button>
+                </Box>
+            </Box>
         </Box>
     );
 };

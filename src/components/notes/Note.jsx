@@ -10,11 +10,11 @@ import {
 import { DataContext } from "../../context/DataProvider";
 
 const StyledCard = styled(Card)`
-  border: 1px solid #e0e0e0;
+  border: 2px solid #e0e0e0;
   border-radius: 8px;
   width: 240px;
   margin: 8px;
-  box-shadow: none;
+  box-shadow: box-shadow: 0 1px 2px 0 rgb(60 64 67 / 30%), 0 2px 6px 2px rgb(60 64 67 / 15%);
 `;
 
 const Note = ({ note }) => {
@@ -36,7 +36,8 @@ const Note = ({ note }) => {
       ? currentLabels.filter(l => l !== labelName)
       : [...currentLabels, labelName];
     updateNoteLabels(note.id, newLabels);
-  };
+  }; //is responsible for the logic of adding a label to a note if it doesn't have it, 
+  // or removing it if it already does. It "toggles" the label on or off for that specific note//
 
   const handleCreateNewLabel = () => {
     if (newLabel && !labels.find(l => l.name === newLabel)) {
@@ -46,7 +47,7 @@ const Note = ({ note }) => {
         handleToggleLabel(newLabel);
     }
     setNewLabel('');
-  }
+  } //Creates a new label if it doesn’t already exist Then toggles (adds) it to the note Clears the input field//
 
   const open = Boolean(anchorEl);
   const id = open ? 'label-popover' : undefined;
@@ -54,23 +55,30 @@ const Note = ({ note }) => {
   const handleLabelDelete = (labelToDelete) => {
     const newLabels = note.labels.filter(label => label !== labelToDelete);
     updateNoteLabels(note.id, newLabels);
-  }
+  }//Called when a label chip’s delete icon is clicked.//
 
   return (
     <StyledCard>
       <CardContent>
         <Typography>{note.heading}</Typography>
-        <Typography>{note.text}</Typography>
+        <Typography dangerouslySetInnerHTML={{__html: note.text}}/>
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, marginTop: 1 }}>
-          {note.labels && note.labels.map(label => (
-            <Chip
-              key={label}
-              label={label}
-              size="small"
-              variant="outlined"
-              onDelete={() => handleLabelDelete(label)}
-            />
-          ))}
+          {note.labels && note.labels.map(labelName => {
+            // For each label name on the note, find the full label object from the context
+            // to retrieve its color. Then, render a Chip component with the label's name,
+            // its assigned color, and a delete handler.
+            const label = labels.find(l => l.name === labelName);
+            return (
+              <Chip
+                key={labelName}
+                label={labelName}
+                size="small"
+                variant="outlined"
+                onDelete={() => handleLabelDelete(labelName)}
+                style={{ backgroundColor: label ? label.color : '#e0e0e0' }}
+              />
+            );
+          })}
         </Box>
       </CardContent>
       <CardActions>
@@ -85,7 +93,8 @@ const Note = ({ note }) => {
             anchorOrigin={{
                 vertical: 'bottom',
                 horizontal: 'left',
-            }}
+            }}//Text field: input for a new label List: all existing labels with checkboxes 
+            // showing if they’re attached to this note//
         >
             <Box sx={{ p: 2, width: 200 }}>
                 <Typography sx={{ mb: 1 }}>Label note</Typography>

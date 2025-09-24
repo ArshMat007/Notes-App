@@ -5,7 +5,7 @@ import { UnarchiveOutlined as Unarchive, DeleteOutlineOutlined as Delete } from 
 import { DataContext } from '../../context/DataProvider';
 
 const StyledCard = styled(Card)`
-    border: 1px solid #e0e0e0;
+    border: 2px solid #e0e0e0;
     border-radius: 8px;
     width: 240px;
     margin: 8px;
@@ -19,7 +19,7 @@ const Archive = ({ note }) => {
         <StyledCard>
             <CardContent>
                 <Typography>{note.heading}</Typography>
-                <Typography>{note.text}</Typography>
+                <Typography dangerouslySetInnerHTML={{ __html: note.text }} />
             </CardContent>
             <CardActions>
                 <Unarchive 

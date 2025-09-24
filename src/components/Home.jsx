@@ -1,5 +1,5 @@
 
-import { useState, useContext } from 'react';
+import { useState, useContext } from 'react';  
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { Box, Snackbar, Alert } from '@mui/material';
 
@@ -19,7 +19,8 @@ const Home = () => {
 
     const handleOpenEditLabels = () => {
         setOpenEditLabels(true);
-    }
+    } //Called when the user clicks on something like “Edit Labels” in the sidebar. //
+    // Sets openEditLabels to true, which opens the label editor dialog.//
 
     const handleCloseNotification = (event, reason) => {
         if (reason === 'clickaway') {
@@ -42,7 +43,7 @@ const Home = () => {
             </Router>
             <Snackbar 
                 open={notification.open} 
-                autoHideDuration={6000} 
+                autoHideDuration={4000} 
                 onClose={handleCloseNotification}
                 anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
             >

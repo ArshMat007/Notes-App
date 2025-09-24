@@ -1,7 +1,6 @@
-
-
 import { useContext } from 'react';
 import { List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
+import {Link, useLocation} from 'react-router-dom';
 import {
   LightbulbOutlined as Lightbulb,
   ArchiveOutlined as Archive,
@@ -9,11 +8,11 @@ import {
   LabelOutlined as Label,
   EditOutlined as Edit,
 } from "@mui/icons-material";
-import { Link } from 'react-router-dom';
 import { DataContext } from '../context/DataProvider';
 
 const NavList = ({ openEditLabels }) => {
 
+    const location = useLocation();
     const { labels } = useContext(DataContext);
 
     const navList = [
@@ -25,19 +24,24 @@ const NavList = ({ openEditLabels }) => {
     return (
         <List>
             {navList.map((list) => (
-                <ListItem button key={list.id}>
-                    <Link to={list.route} style={{ textDecoration: 'none', display: 'flex', color: 'inherit' }}>
-                        <ListItemIcon style={{ alignItems: 'center' }}>{list.icon}</ListItemIcon>
-                        <ListItemText primary={list.name} />
-                    </Link>
+                <ListItem button key={list.id} component={Link} to={list.route} style={{ 
+                    textDecoration: 'none', 
+                    display: 'flex', 
+                    color: 'inherit',
+                    backgroundColor: location.pathname=== list.route ? '#f8eeceff' : 'transparent',
+                    fontWeight: location.pathname===list.route ? 'bold' : 'normal',  }}>
+                    <ListItemIcon style={{ alignItems: 'center' }}>{list.icon}</ListItemIcon>
+                    <ListItemText primary={list.name} />
                 </ListItem>
             ))}
             {labels.map(label => (
-                <ListItem button key={label.id}>
-                    <Link to={`/labels/${label.name}`} style={{ textDecoration: 'none', display: 'flex', color: 'inherit' }}>
-                        <ListItemIcon style={{ alignItems: 'center' }}><Label /></ListItemIcon>
-                        <ListItemText primary={label.name} />
-                    </Link>
+                <ListItem button key={label.id} component={Link} to={`/labels/${label.name}`} style={{ textDecoration: 'none', 
+                display: 'flex', 
+                color: 'inherit',
+                backgroundColor: location.pathname===`/labels/${label.name}` ? '#d3dcf8ff' : 'transparent',
+                 }}>
+                    <ListItemIcon style={{ alignItems: 'center' }}><Label /></ListItemIcon>
+                    <ListItemText primary={label.name} />
                 </ListItem>
             ))}
             <ListItem button onClick={openEditLabels}>

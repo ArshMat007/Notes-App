@@ -19,7 +19,7 @@ const DeleteNote = ({ note }) => {
         <StyledCard>
             <CardContent>
                 <Typography>{note.heading}</Typography>
-                <Typography>{note.text}</Typography>
+                <Typography dangerouslySetInnerHTML={{ __html: note.text }} />
             </CardContent>
             <CardActions>
                 <Delete 

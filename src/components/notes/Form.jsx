@@ -3,13 +3,16 @@ import { Box, TextField, ClickAwayListener, Autocomplete, Chip } from "@mui/mate
 import { styled } from "@mui/material/styles";
 import { v4 as uuid } from "uuid";
 import { DataContext } from "../../context/DataProvider";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.snow.css";
 
 const Container = styled(Box)`
   display: flex;
   flex-direction: column;
   margin: auto;
-  box-shadow: 0 1px 2px 0 rgb(60 64 67 / 30%), 0 2px 6px 2px rgb(60 64 67 / 15%);
-  border-color: #e0e0e0;
+  box-shadow: 0 1px 2px 0 rgb(60 64 67 / 30%),
+    0 2px 6px 2px rgb(60 64 67 / 15%);
+  border-color: #ddd4d4ff;
   width: 600px;
   border-radius: 8px;
   min-height: 30px;
@@ -39,41 +42,41 @@ const Form = () => {
       containerRef.current.style.minHeight = "30px";
     }
 
-    // If the form is totally empty, just close it without an error.
+    // If form is totally empty, reset and exit
     if (!newNote.heading && !newNote.text && newNote.labels.length === 0) {
-        setNewNote({ ...noteTemplate, id: uuid() }); // Reset form
-        return;
+      setNewNote({ ...noteTemplate, id: uuid() });
+      return;
     }
 
-    // If there's some content but no title, show an error.
+    // Require title
     if (!newNote.heading) {
-        showNotification('Note must have a title.', 'error');
-        return;
+      showNotification("Note must have a title.", "error");
+      return;
     }
 
-    // If validation passes, proceed with saving.
-    if (newNote.heading || newNote.text || newNote.labels.length > 0) {
-      // Find any new labels that were added and create them
-      const existingLabelNames = labels.map(l => l.name);
-      newNote.labels.forEach(label => {
+    // Save note
+    try {
+      // Add new labels if needed
+      const existingLabelNames = labels.map((l) => l.name);
+      newNote.labels.forEach((label) => {
         if (!existingLabelNames.includes(label)) {
           addLabel(label);
         }
       });
 
-      try {
-        await addNote({
-          ...newNote,
-          createdAt: new Date(),
-        });
-        showNotification('Note saved successfully!', 'success');
-      } catch (error) {
-        console.error("Error adding note:", error);
-        showNotification('Error saving note.', 'error');
-      }
+      await addNote({
+        ...newNote,
+        createdAt: new Date(),
+      });
+
+      showNotification("Note saved successfully!", "success");
+    } catch (error) {
+      console.error("Error adding note:", error);
+      showNotification("Error saving note.", "error");
     }
 
-    setNewNote({ ...noteTemplate, id: uuid() }); // Reset form with a new ID
+    // Reset form with new ID
+    setNewNote({ ...noteTemplate, id: uuid() });
   };
 
   const onTextAreaClick = () => {
@@ -83,8 +86,12 @@ const Form = () => {
     }
   };
 
-  const onTextChange = (e) => {
-    setNewNote({ ...newNote, [e.target.name]: e.target.value });
+  const onTitleChange = (e) => {
+    setNewNote({ ...newNote, heading: e.target.value });
+  };
+
+  const onTextChange = (content) => {
+    setNewNote({ ...newNote, text: content });
   };
 
   const onLabelChange = (event, value) => {
@@ -100,39 +107,48 @@ const Form = () => {
             variant="standard"
             InputProps={{ disableUnderline: true }}
             style={{ marginBottom: 10 }}
-            onChange={onTextChange}
+            onChange={onTitleChange}
             name="heading"
             value={newNote.heading || ""}
           />
         )}
-        <TextField
+        <ReactQuill
+          theme="snow"
           placeholder="Take a note..."
           multiline
           variant="standard"
           InputProps={{ disableUnderline: true }}
           onClick={onTextAreaClick}
           onChange={onTextChange}
+          onFocus={onTextAreaClick}
           name="text"
           value={newNote.text || ""}
         />
         {showTextField && (
-          <Box sx={{ marginTop: '10px' }}>
+          <Box sx={{ marginTop: "10px" }}>
             <Autocomplete
               multiple
-              freeSolo // Allows creating new labels
-              options={labels.map(option => option.name)} // Suggestions from existing labels
+              freeSolo
+              options={labels.map((option) => option.name)}
               value={newNote.labels}
               onChange={onLabelChange}
               renderTags={(value, getTagProps) =>
                 value.map((option, index) => (
-                  <Chip variant="outlined" label={option} {...getTagProps({ index })} />
+                  <Chip
+                    variant="outlined"
+                    label={option}
+                    {...getTagProps({ index })}
+                  />
                 ))
               }
               renderInput={(params) => (
                 <TextField
                   {...params}
                   variant="standard"
-                  InputProps={{ ...params.InputProps, disableUnderline: true }}
+                  InputProps={{
+                    ...params.InputProps,
+                    disableUnderline: true,
+                  }}
                   placeholder="Add labels..."
                 />
               )}

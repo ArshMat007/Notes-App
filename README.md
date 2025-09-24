@@ -2,6 +2,14 @@
 
 A modern, responsive note-taking web application inspired by Google Keep, built with React and powered by Google Firebase.
 
+## Table of Contents
+
+- [Core Features](#core-features)
+- [How It Works: A Technical Overview](#how-it-works-a-technical-overview)
+- [Technology Stack](#technology-stack)
+- [Folder Structure](#folder-structure)
+- [Local Setup and Installation](#local-setup-and-installation)
+
 ## Core Features
 
 This application includes a robust set of features designed for a seamless and intuitive user experience.
@@ -9,7 +17,7 @@ This application includes a robust set of features designed for a seamless and i
 #### 1. Real-time Note Management
 - **Create Notes**: A simple and elegant form allows users to create notes with a title, content, and labels.
 - **Archive & Trash**: Notes can be archived to be hidden from the main view or moved to the trash. Trashed notes can be restored or permanently deleted.
-- **Drag-and-Drop**: Notes on the main page can be reordered using a smooth drag-and-drop interface.
+- **Drag-and-Drop**: Notes on the main page can be reordered using a smooth drag-and-drop interface powered by `react-beautiful-dnd`.
 
 #### 2. Dynamic Labeling System
 - **Create & Assign Labels**: Users can create new labels on the fly, either from the main navigation or directly when creating/editing a note.
@@ -59,7 +67,31 @@ The application is built around a centralized state management model powered by 
 - **Backend & Database**: Google Firebase (Firestore, Authentication)
 - **UI Components**: Material-UI (MUI)
 - **Styling**: Styled Components (`@mui/material/styles`)
-- **Drag & Drop**: Framer Motion & react-beautiful-dnd
+- **Drag & Drop**: `react-beautiful-dnd`
+
+---
+
+## Folder Structure
+
+```
+/
+├── public/              # Public assets and index.html
+├── src/
+│   ├── Assets/          # Images and other static assets
+│   ├── components/      # Reusable React components
+│   │   ├── archives/
+│   │   ├── delete/
+│   │   ├── labels/
+│   │   └── notes/
+│   ├── context/         # React context for global state
+│   ├── utils/           # Utility functions
+│   ├── App.js           # Main application component
+│   ├── firebase.js      # Firebase configuration
+│   └── index.js         # Entry point of the application
+├── .gitignore
+├── package.json
+└── README.md
+```
 
 ---
 

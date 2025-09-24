@@ -1,3 +1,9 @@
+//Displaying the form to create a new note.
+// Fetching all of your notes from the global state.
+// Filtering those notes based on whether you've selected a label or are searching for something.
+// Displaying the filtered notes in a grid.
+// Allowing you to drag and drop the notes to reorder them.
+// Showing a message if there are no notes to display.
 import { useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import { Box, Grid } from '@mui/material';
@@ -27,7 +33,7 @@ const Notes = () => {
     setNotes(items);
   };
 
-  let notesToDisplay = notes;
+  let notesToDisplay = notes; //filtering logic
 
   // Apply search filter first
   if (searchQuery) {
@@ -44,8 +50,6 @@ const Notes = () => {
   // Then, apply label filtering on the (potentially) search-filtered list
   if (labelName) {
       notesToDisplay = notesToDisplay.filter(note => note.labels && note.labels.includes(labelName));
-  } else if (!searchQuery) { // On the main page, only show unlabeled notes if not searching
-      notesToDisplay = notesToDisplay.filter(note => !note.labels || note.labels.length === 0);
   }
 
   return (
@@ -67,7 +71,7 @@ const Notes = () => {
                     <Draggable
                       key={note.id}
                       draggableId={String(note.id)}
-                      index={index}
+                      index={index}//note display logic
                     >
                       {(provided, snapshot) => (
                         <Grid
