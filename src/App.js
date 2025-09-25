@@ -3,6 +3,7 @@ import Home from './components/Home';
 import DataProvider, { DataContext } from './context/DataProvider';
 import LoginPage from './components/LoginPage';
 
+
 function AppContent() {
   const { user } = useContext(DataContext);
 

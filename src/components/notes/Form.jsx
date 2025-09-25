@@ -86,6 +86,7 @@ const Form = () => {
     }
   };
 
+  //Input Handlers//
   const onTitleChange = (e) => {
     setNewNote({ ...newNote, heading: e.target.value });
   };
@@ -125,7 +126,7 @@ const Form = () => {
           value={newNote.text || ""}
         />
         {showTextField && (
-          <Box sx={{ marginTop: "10px" }}>
+          <Box sx={{ marginTop: "10px" }}> 
             <Autocomplete
               multiple
               freeSolo
@@ -138,7 +139,7 @@ const Form = () => {
                     variant="outlined"
                     label={option}
                     {...getTagProps({ index })}
-                  />
+                  />//component displays and manages label selection.//
                 ))
               }
               renderInput={(params) => (

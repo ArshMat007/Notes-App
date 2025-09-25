@@ -118,6 +118,10 @@ const DataProvider = ({ children }) => {
   };
 
   const deleteNote = async (note) => {
+    // Optimistic update
+    const newNotes = notes.filter(n => n.id !== note.id);
+    setNotes(newNotes);
+
     const path = getCollectionPath("notes");
     if (!path) return;
     const noteRef = doc(db, path, note.id);

@@ -13,7 +13,7 @@ import { DataContext } from '../context/DataProvider';
 const NavList = ({ openEditLabels }) => {
 
     const location = useLocation();
-    const { labels } = useContext(DataContext);
+    const { labels } = useContext(DataContext); //Get Labels from Global State//
 
     const navList = [
         { id: 1, name: 'Notes', icon: <Lightbulb />, route: '/' },
@@ -46,7 +46,7 @@ const NavList = ({ openEditLabels }) => {
             ))}
             <ListItem button onClick={openEditLabels}>
                 <ListItemIcon style={{ alignItems: 'center' }}><Edit /></ListItemIcon>
-                <ListItemText primary="Edit labels" />
+                <ListItemText primary="Edit Labels" />
             </ListItem>
         </List>
     )

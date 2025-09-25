@@ -62,7 +62,7 @@ const EditLabels = ({ open, handleClose }) => {
                         onChange={(e) => setNewLabel(e.target.value)}
                         onKeyPress={(e) => e.key === 'Enter' && handleAddLabel()}
                     />
-                    <IconButton onClick={handleAddLabel}><AddIcon /></IconButton>
+                    <IconButton onClick={handleAddLabel}><AddIcon /></IconButton> {/*//Add the Label: Pressing Enter or clicking the "Add" icon calls the this function.*/}
                 </Box>
                 <List>
                     {labels.map(label => (
