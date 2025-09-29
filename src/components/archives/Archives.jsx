@@ -15,6 +15,7 @@ const Archives = () => {
     const filteredArchives = searchQuery ? archiveNotes.filter(note => 
         new RegExp(searchQuery, 'i').test(note.heading) || new RegExp(searchQuery, 'i').test(note.text)
     ) : archiveNotes;
+   
 
     return (
         <Box sx={{ display: 'flex', width: '100%' }}>
@@ -30,6 +31,8 @@ const Archives = () => {
             </Box>
         </Box>
     );
+    
+     
 };
 
 export default Archives;

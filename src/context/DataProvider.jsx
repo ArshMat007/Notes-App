@@ -14,6 +14,7 @@ import {
   arrayRemove,
 } from "firebase/firestore";
 import { getRandomColor } from "../utils/colors";
+import { Snackbar, Alert } from '@mui/material';
 
 export const DataContext = createContext(null); // React Context to share data across your whole app without prop drilling.
 
@@ -31,15 +32,24 @@ const DataProvider = ({ children }) => {
     setNotification({ open: true, message, severity });
   };
 
-  
+  const handleCloseNotification = (event, reason) => {
+    if (reason === 'clickaway') {
+      return;
+    }
+    setNotification({ ...notification, open: false });
+  };
 
   useEffect(() => {
-
-
     const unsubscribeAuth = onAuthStateChanged(auth, (currentUser) => {
         setUser(currentUser);
     });
 
+    return () => {
+      unsubscribeAuth();
+    };
+  }, []);
+
+  useEffect(() => {
     let unsubscribeNotes =() => {};
     let unsubscribeLabels =() => {};
 
@@ -87,7 +97,6 @@ const DataProvider = ({ children }) => {
     }
 
     return () => {
-      unsubscribeAuth();
       unsubscribeNotes();
       unsubscribeLabels();
     };
@@ -118,10 +127,6 @@ const DataProvider = ({ children }) => {
   };
 
   const deleteNote = async (note) => {
-    // Optimistic update
-    const newNotes = notes.filter(n => n.id !== note.id);
-    setNotes(newNotes);
-
     const path = getCollectionPath("notes");
     if (!path) return;
     const noteRef = doc(db, path, note.id);
@@ -230,6 +235,11 @@ const DataProvider = ({ children }) => {
       }}
     >
       {children}
+      <Snackbar open={notification.open} autoHideDuration={6000} onClose={handleCloseNotification}>
+        <Alert onClose={handleCloseNotification} severity={notification.severity} sx={{ width: '100%' }}>
+          {notification.message}
+        </Alert>
+      </Snackbar>
     </DataContext.Provider>
   );
 };//It renders the <DataContext.Provider>.

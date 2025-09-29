@@ -10,41 +10,37 @@ const Container = styled(Box)`
   display: flex;
   flex-direction: column;
   margin: auto;
-  box-shadow: 0 1px 2px 0 rgb(60 64 67 / 30%),
-    0 2px 6px 2px rgb(60 64 67 / 15%);
-  border-color: #ddd4d4ff;
+  box-shadow: 0 1px 2px 0 rgb(60 64 67 / 30%), 0 2px 6px 2px rgb(60 64 67 / 15%);
+  border-color: #f1f3f5ff;
   width: 600px;
   border-radius: 8px;
   min-height: 30px;
   padding: 10px 15px;
 `;
 
-const noteTemplate = {
+const getNewNote = () => ({
   id: uuid(),
   heading: "",
   text: "",
   labels: [],
   archive: false,
   deleted: false,
-};
+});
 
 const Form = () => {
   const [showTextField, setShowTextField] = useState(false);
-  const [newNote, setNewNote] = useState({ ...noteTemplate });
+  const [newNote, setNewNote] = useState(getNewNote());
 
   const { addNote, labels, addLabel, showNotification } = useContext(DataContext);
 
   const containerRef = useRef();
 
   const handleClickAway = async () => {
-    setShowTextField(false);
-    if (containerRef.current) {
-      containerRef.current.style.minHeight = "30px";
-    }
-
     // If form is totally empty, reset and exit
     if (!newNote.heading && !newNote.text && newNote.labels.length === 0) {
-      setNewNote({ ...noteTemplate, id: uuid() });
+      setNewNote(getNewNote());
+      setShowTextField(false);
+      if (containerRef.current) containerRef.current.style.minHeight = "30px";
       return;
     }
 
@@ -54,7 +50,6 @@ const Form = () => {
       return;
     }
 
-    // Save note
     try {
       // Add new labels if needed
       const existingLabelNames = labels.map((l) => l.name);
@@ -64,6 +59,7 @@ const Form = () => {
         }
       });
 
+      // Save note
       await addNote({
         ...newNote,
         createdAt: new Date(),
@@ -75,8 +71,11 @@ const Form = () => {
       showNotification("Error saving note.", "error");
     }
 
-    // Reset form with new ID
-    setNewNote({ ...noteTemplate, id: uuid() });
+    // Reset form first, then hide fields
+    const freshNote = getNewNote();
+    setNewNote(freshNote);
+    setShowTextField(false);
+    if (containerRef.current) containerRef.current.style.minHeight = "30px";
   };
 
   const onTextAreaClick = () => {
@@ -86,7 +85,7 @@ const Form = () => {
     }
   };
 
-  //Input Handlers//
+  // Input Handlers
   const onTitleChange = (e) => {
     setNewNote({ ...newNote, heading: e.target.value });
   };
@@ -107,26 +106,30 @@ const Form = () => {
             placeholder="Title"
             variant="standard"
             InputProps={{ disableUnderline: true }}
-            style={{ marginBottom: 10 }}
+            sx={{
+                marginBottom: '10px',
+                '& .MuiInputBase-input': {
+                fontWeight: 'bold',
+                fontSize: '1.2rem',
+              },
+    }}
             onChange={onTitleChange}
             name="heading"
             value={newNote.heading || ""}
           />
         )}
         <ReactQuill
+          key={newNote.id} // <-- ensures ReactQuill resets when note ID changes
           theme="snow"
           placeholder="Take a note..."
           multiline
-          variant="standard"
-          InputProps={{ disableUnderline: true }}
           onClick={onTextAreaClick}
           onChange={onTextChange}
           onFocus={onTextAreaClick}
-          name="text"
           value={newNote.text || ""}
         />
         {showTextField && (
-          <Box sx={{ marginTop: "10px" }}> 
+          <Box sx={{ marginTop: "10px" }}>
             <Autocomplete
               multiple
               freeSolo
@@ -139,17 +142,14 @@ const Form = () => {
                     variant="outlined"
                     label={option}
                     {...getTagProps({ index })}
-                  />//component displays and manages label selection.//
+                  />
                 ))
               }
               renderInput={(params) => (
                 <TextField
                   {...params}
                   variant="standard"
-                  InputProps={{
-                    ...params.InputProps,
-                    disableUnderline: true,
-                  }}
+                  InputProps={{ ...params.InputProps, disableUnderline: true }}
                   placeholder="Add labels..."
                 />
               )}

@@ -4,8 +4,12 @@ import DataProvider, { DataContext } from './context/DataProvider';
 import LoginPage from './components/LoginPage';
 
 
+
+
 function AppContent() {
   const { user } = useContext(DataContext);
+
+  
 
   return user ? <Home /> : <LoginPage />;
 }

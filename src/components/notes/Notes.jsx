@@ -1,4 +1,4 @@
-//Displaying the form to create a new note.
+// Displaying the form to create a new note.
 // Fetching all of your notes from the global state.
 // Filtering those notes based on whether you've selected a label or are searching for something.
 // Displaying the filtered notes in a grid.

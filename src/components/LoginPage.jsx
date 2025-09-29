@@ -1,5 +1,5 @@
 import { useState, useContext } from 'react';
-import { Box, Button, Typography, TextField, Tabs, Tab } from '@mui/material';
+import { Box, Button, Typography, TextField, Tabs, Tab, CircularProgress } from '@mui/material';
 import { signInWithEmailAndPassword, createUserWithEmailAndPassword } from 'firebase/auth';
 import { auth } from '../firebase';
 import { DataContext } from '../context/DataProvider';
@@ -9,25 +9,24 @@ const LoginPage = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [tab, setTab] = useState('signin');
+    const [loading, setLoading] = useState(false);
 
     const handleAuthAction = async () => {
-        if (tab === 'signin') {
-            try {
+        setLoading(true);
+        try {
+            if (tab === 'signin') {
                 await signInWithEmailAndPassword(auth, email, password);
                 // The onAuthStateChanged listener in DataProvider will handle the redirect.
-            } catch (error) {
-                console.error("Sign-in error:", error);
-                showNotification(getFriendlyErrorMessage(error.code), 'error');
-            }
-        } else {
-            try {
+            } else {
                 await createUserWithEmailAndPassword(auth, email, password);
                 showNotification('Account created successfully! Please sign in.', 'success');
                 setTab('signin'); // Switch to sign-in tab after successful sign-up
-            } catch (error) {
-                console.error("Sign-up eroor:", error);
-                showNotification(getFriendlyErrorMessage(error.code), 'error');
             }
+        } catch (error) {
+            console.error(tab === 'signin' ? "Sign-in error:" : "Sign-up error:", error);
+            showNotification(getFriendlyErrorMessage(error.code), 'error');
+        } finally {
+            setLoading(false);
         }
     };
 
@@ -73,6 +72,7 @@ const LoginPage = () => {
                         margin="normal"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
+                        disabled={loading}
                     />
                     <TextField
                         label="Password"
@@ -82,15 +82,17 @@ const LoginPage = () => {
                         margin="normal"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        onKeyPress={(e) => e.key === 'Enter' && handleAuthAction()}
+                        onKeyPress={(e) => e.key === 'Enter' && !loading && handleAuthAction()}
+                        disabled={loading}
                     />
                     <Button
                         fullWidth
                         variant="contained"
                         sx={{ mt: 3, mb: 2 }}
                         onClick={handleAuthAction}
+                        disabled={loading}
                     >
-                        {tab === 'signin' ? 'Sign In' : 'Sign Up'}
+                        {loading ? <CircularProgress size={24} color="inherit" /> : (tab === 'signin' ? 'Sign In' : 'Sign Up')}
                     </Button>
                 </Box>
             </Box>

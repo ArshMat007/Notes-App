@@ -7,6 +7,7 @@ import SearchIcon from '@mui/icons-material/Search';
 import { DataContext } from '../context/DataProvider';
 import { auth } from '../firebase';
 import { signOut } from 'firebase/auth';
+import logo from '../Assets/newlogo.png';
 
 const Header = styled(AppBar)`
     z-index: 1201;   
@@ -77,7 +78,7 @@ const HeaderBar = ({ open, handleDrawer }) => {
                     >
                         <Menu />
                     </IconButton>
-
+                    <img src={logo} alt="logo" style={{width: '80px', height: '69px'}} />
                     <Heading>Arsh Keeps</Heading>
                 </Box>
                 <Search>
@@ -94,8 +95,8 @@ const HeaderBar = ({ open, handleDrawer }) => {
                 <Box sx={{ display: 'flex', alignItems: 'center', gap: 2}}>
                     {/* This component now only renders if a user is logged in */}
                     <Avatar src={user?.photoURL} alt={user?.displayName || user?.email}>
-                        {user?.email?.[0].toUpperCase()}
                     </Avatar>
+                    
                     <Button variant="contained" onClick={handleSignOut}>Sign Out</Button>
                 </Box>
             </Toolbar>

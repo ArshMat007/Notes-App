@@ -58,31 +58,29 @@ const Note = ({ note }) => {
   }//Called when a label chip’s delete icon is clicked.//
 
   return (
-    <StyledCard>
+    <StyledCard className="note-card">
       <CardContent>
-        <Typography>{note.heading}</Typography>
+        <Typography sx={{fontWeight: 'bold', fontSize: '1.2rem' }}>{note.heading}</Typography>
         <Typography dangerouslySetInnerHTML={{__html: note.text}}/>
         <Box sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, marginTop: 1 }}>
           {note.labels && note.labels.map(labelName => {
-            // For each label name on the note, find the full label object from the context
-            // to retrieve its color. Then, render a Chip component with the label's name,
-            // its assigned color, and a delete handler.
             const label = labels.find(l => l.name === labelName);
             return (
-              <Chip
-                key={labelName}
-                label={labelName}
-                size="small"
-                variant="outlined"
-                onDelete={() => handleLabelDelete(labelName)}
-                style={{ backgroundColor: label ? label.color : '#e0e0e0' }}
-              />
+              <Box key={labelName} onClick={(e) => e.stopPropagation()}>
+                <Chip
+                  label={labelName}
+                  size="small"
+                  variant="outlined"
+                  onDelete={() => handleLabelDelete(labelName)}
+                  style={{ backgroundColor: label ? label.color : '#e0e0e0' }}
+                />
+              </Box>
             );
           })}
         </Box>
       </CardContent>
       <CardActions>
-        <IconButton aria-describedby={id} onClick={handleLabelClick}>
+        <IconButton aria-describedby={id} onClick={(e) => { e.stopPropagation(); handleLabelClick(e); }}>
             <Label fontSize="small" />
         </IconButton>
         <Popover
@@ -93,10 +91,9 @@ const Note = ({ note }) => {
             anchorOrigin={{
                 vertical: 'bottom',
                 horizontal: 'left',
-            }}//Text field: input for a new label List: all existing labels with checkboxes 
-            // showing if they’re attached to this note//
+            }}
         >
-            <Box sx={{ p: 2, width: 200 }}>
+            <Box sx={{ p: 2, width: 200 }} onClick={(e) => e.stopPropagation()}>
                 <Typography sx={{ mb: 1 }}>Label note</Typography>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <TextField 
@@ -105,7 +102,7 @@ const Note = ({ note }) => {
                         placeholder="Enter label name"
                         value={newLabel}
                         onChange={(e) => setNewLabel(e.target.value)}
-                        onKeyPress={(e) => e.key === 'Enter' && handleCreateNewLabel()}
+                        onKeyPress={(e) => { if (e.key === 'Enter') { handleCreateNewLabel(); } }}
                     />
                 </Box>
                 <List>
@@ -124,9 +121,9 @@ const Note = ({ note }) => {
         <Archive
           fontSize="small"
           style={{ marginLeft: "auto" }}
-          onClick={() => archiveNote(note)}
+          onClick={(e) => {e.stopPropagation();archiveNote(note)}}
         />
-        <Delete fontSize="small" onClick={() => deleteNote(note)} />
+        <Delete fontSize="small" onClick={(e) => {e.stopPropagation();deleteNote(note)}} />
       </CardActions>
     </StyledCard>
   );
