@@ -1,0 +1,10 @@
+.notes-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  align-content: start;
+  min-height: 80vh;
+  padding: 20px;
+  max-width: 1200px; /* Limits width on very large screens */
+  margin: 0 auto;     /* Centers the container */
+}

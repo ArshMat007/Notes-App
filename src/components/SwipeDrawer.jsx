@@ -2,12 +2,13 @@ import * as React from 'react';
 import { styled, useTheme } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 import MuiDrawer from '@mui/material/Drawer';
+import ListItemButton from '@mui/material/ListItemButton';
 
 //components
 import HeaderBar from './HeaderBar';
 import NavList from './NavList';
 
-const drawerWidth = 240;
+const drawerWidth = 220;
 
 const openedMixin = (theme) => ({
     width: drawerWidth,
@@ -16,8 +17,7 @@ const openedMixin = (theme) => ({
         duration: theme.transitions.duration.enteringScreen,
     }),
     overflowX: 'hidden',
-    backgroundColor: '#fcfeffff'
-
+    backgroundColor: '#2C2C2E'
 });
 
 const closedMixin = (theme) => ({
@@ -35,6 +35,35 @@ const closedMixin = (theme) => ({
 const DrawerHeader = styled('div')(({ theme }) => ({
     ...theme.mixins.toolbar,
 }));
+
+export const SidebarItem = styled(ListItemButton)(({ theme }) => ({
+  display: 'flex',
+  alignItems: 'center',
+  padding: '10px 22px',
+  borderRadius: '12px',
+  margin: '4px 12px',
+  color: '#e8eaed',
+  transition: 'all 0.2s ease-in-out',
+  
+  '&:hover': {
+    backgroundColor: 'rgba(226, 242, 247, 0.08)',
+    transform: 'scale(1.02)',
+  },
+
+  '&.active': {
+    backgroundColor: 'rgba(199, 236, 246, 0.15)',
+    borderLeft: '4px solid #bfe8fdff',
+    //borderRight: '4px solid #bfe8fdff',
+    fontWeight: 600,
+  },
+}));
+
+export const SectionDivider = styled('div')({
+  height: '1px',
+  width: '80%',
+  backgroundColor: 'rgba(255, 255, 255, 0.1)',
+  margin: '10px auto',
+});
 
 
 const Drawer = styled(MuiDrawer, { shouldForwardProp: (prop) => prop !== 'open' })(

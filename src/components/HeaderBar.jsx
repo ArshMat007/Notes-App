@@ -11,13 +11,13 @@ import logo from '../Assets/newlogo.png';
 
 const Header = styled(AppBar)`
     z-index: 1201;   
-    background: #fff;
+    background: #2C2C2E;
     height: 70px;
-    box-shadow: inset 0 -1px 0 0 #dadce0;
+    box-shadow: inset 0 -1px 0 0 #525355;
 `; // z-index: 1201;  ensures the header is above the sidebar.//
 
 const Heading = styled(Typography)`
-    color: #54595fff;
+    color: #ffffff;
     font-size: 24px;
     margin-left: 25px;
 `;
@@ -25,9 +25,9 @@ const Heading = styled(Typography)`
 const Search = styled('div')(({ theme }) => ({
     position: 'relative',
     borderRadius: theme.shape.borderRadius,
-    backgroundColor: alpha(theme.palette.common.black, 0.05),
+    backgroundColor: '#39393b',
     '&:hover': {
-        backgroundColor: alpha(theme.palette.common.black, 0.1),
+        backgroundColor: '#404042',
     },
     margin: '0 auto',
     width: '100%',
@@ -52,7 +52,7 @@ const StyledInputBase = styled(InputBase)(({ theme }) => ({
         transition: theme.transitions.create('width'),
         width: '100%',
         '&::placeholder': {
-            color: '#383535ff',
+            color: '#b0b0b0',
             opacity: 1,
         },
     },
@@ -68,7 +68,7 @@ const HeaderBar = ({ open, handleDrawer }) => {
     };
 
     return (
-        <Header open={open} sx={{ backgroundColor: "#fcfeffff" }}>
+        <Header open={open}>
             <Toolbar sx={{ justifyContent: 'space-between' }}>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <IconButton

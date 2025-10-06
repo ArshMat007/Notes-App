@@ -1,5 +1,5 @@
 import { useState, useRef, useContext } from "react";
-import { Box, TextField, ClickAwayListener, Autocomplete, Chip } from "@mui/material";
+import { Box, TextField, ClickAwayListener, Autocomplete, Chip, GlobalStyles } from "@mui/material";
 import { styled } from "@mui/material/styles";
 import { v4 as uuid } from "uuid";
 import { DataContext } from "../../context/DataProvider";
@@ -10,8 +10,9 @@ const Container = styled(Box)`
   display: flex;
   flex-direction: column;
   margin: auto;
-  box-shadow: 0 1px 2px 0 rgb(60 64 67 / 30%), 0 2px 6px 2px rgb(60 64 67 / 15%);
-  border-color: #f1f3f5ff;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  border: 1px solid #2E2E2E;
+  background-color: #1E1E1E;
   width: 600px;
   border-radius: 8px;
   min-height: 30px;
@@ -36,7 +37,6 @@ const Form = () => {
   const containerRef = useRef();
 
   const handleClickAway = async () => {
-    // If form is totally empty, reset and exit
     if (!newNote.heading && !newNote.text && newNote.labels.length === 0) {
       setNewNote(getNewNote());
       setShowTextField(false);
@@ -44,14 +44,12 @@ const Form = () => {
       return;
     }
 
-    // Require title
     if (!newNote.heading) {
       showNotification("Note must have a title.", "error");
       return;
     }
 
     try {
-      // Add new labels if needed
       const existingLabelNames = labels.map((l) => l.name);
       newNote.labels.forEach((label) => {
         if (!existingLabelNames.includes(label)) {
@@ -59,7 +57,6 @@ const Form = () => {
         }
       });
 
-      // Save note
       await addNote({
         ...newNote,
         createdAt: new Date(),
@@ -71,7 +68,6 @@ const Form = () => {
       showNotification("Error saving note.", "error");
     }
 
-    // Reset form first, then hide fields
     const freshNote = getNewNote();
     setNewNote(freshNote);
     setShowTextField(false);
@@ -85,7 +81,6 @@ const Form = () => {
     }
   };
 
-  // Input Handlers
   const onTitleChange = (e) => {
     setNewNote({ ...newNote, heading: e.target.value });
   };
@@ -101,33 +96,86 @@ const Form = () => {
   return (
     <ClickAwayListener onClickAway={handleClickAway}>
       <Container ref={containerRef}>
+        <GlobalStyles
+          styles={{
+            '.ql-toolbar': {
+              backgroundColor: '#2D3748',
+              border: '1px solid #4A5568 !important',
+              borderTopLeftRadius: '4px',
+              borderTopRightRadius: '4px',
+            },
+            '.ql-container': {
+              border: '1px solid #4A5568 !important',
+              borderBottomLeftRadius: '4px',
+              borderBottomRightRadius: '4px',
+            },
+            '.ql-editor': {
+              color: '#E5E7EB',
+            },
+            '.ql-editor.ql-blank::before': {
+              color: '#A0AEC0 !important',
+              fontStyle: 'normal',
+            },
+            '.ql-snow .ql-stroke': {
+              stroke: '#E5E7EB !important',
+            },
+            '.ql-snow .ql-picker-label': {
+              color: '#E5E7EB !important',
+            },
+            '.ql-snow .ql-fill': {
+              fill: '#E5E7EB !important',
+            }
+          }}
+        />
         {showTextField && (
           <TextField
             placeholder="Title"
             variant="standard"
-            InputProps={{ disableUnderline: true }}
+            InputProps={{ disableUnderline: true, style: { color: '#E5E7EB' } }}
             sx={{
                 marginBottom: '10px',
+                '& .MuiInputBase-input::placeholder': {
+                    color: '#E5E7EB',
+                    opacity: 1,
+                },
                 '& .MuiInputBase-input': {
-                fontWeight: 'bold',
-                fontSize: '1.2rem',
-              },
-    }}
+                    fontWeight: 'bold',
+                    fontSize: '1.2rem',
+                },
+            }}
             onChange={onTitleChange}
             name="heading"
             value={newNote.heading || ""}
           />
         )}
-        <ReactQuill
-          key={newNote.id} // <-- ensures ReactQuill resets when note ID changes
-          theme="snow"
-          placeholder="Take a note..."
-          multiline
-          onClick={onTextAreaClick}
-          onChange={onTextChange}
-          onFocus={onTextAreaClick}
-          value={newNote.text || ""}
-        />
+        {showTextField ? (
+          <ReactQuill
+            key={newNote.id}
+            theme="snow"
+            placeholder="Take a note..."
+            multiline
+            onChange={onTextChange}
+            value={newNote.text || ""}
+          />
+        ) : (
+          <TextField
+            placeholder="Take a note..."
+            variant="standard"
+            InputProps={{ disableUnderline: true }}
+            onClick={onTextAreaClick}
+            value=""
+            sx={{
+                '& .MuiInputBase-input::placeholder': {
+                    color: '#A0AEC0',
+                    opacity: 1,
+                },
+                '& .MuiInputBase-input': {
+                    fontWeight: '500',
+                    color: '#E5E7EB',
+                },
+            }}
+          />
+        )}
         {showTextField && (
           <Box sx={{ marginTop: "10px" }}>
             <Autocomplete
@@ -149,8 +197,14 @@ const Form = () => {
                 <TextField
                   {...params}
                   variant="standard"
-                  InputProps={{ ...params.InputProps, disableUnderline: true }}
+                  InputProps={{ ...params.InputProps, disableUnderline: true, style: { color: '#E5E7EB' } }}
                   placeholder="Add labels..."
+                  sx={{
+                    '& .MuiInputBase-input::placeholder': {
+                        color: '#E5E7EB',
+                        opacity: 1,
+                    },
+                  }}
                 />
               )}
             />

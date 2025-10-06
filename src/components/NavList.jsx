@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { List, ListItem, ListItemIcon, ListItemText } from "@mui/material";
+import { List, ListItemIcon, ListItemText } from "@mui/material";
 import {Link, useLocation} from 'react-router-dom';
 import {
   LightbulbOutlined as Lightbulb,
@@ -9,6 +9,7 @@ import {
   EditOutlined as Edit,
 } from "@mui/icons-material";
 import { DataContext } from '../context/DataProvider';
+import { SidebarItem, SectionDivider } from './SwipeDrawer';
 
 const NavList = ({ openEditLabels }) => {
 
@@ -24,30 +25,23 @@ const NavList = ({ openEditLabels }) => {
     return (
         <List>
             {navList.map((list) => (
-                <ListItem button key={list.id} component={Link} to={list.route} style={{ 
-                    textDecoration: 'none', 
-                    display: 'flex', 
-                    color: 'inherit',
-                    backgroundColor: location.pathname=== list.route ? '#f8eeceff' : 'transparent',
-                    fontWeight: location.pathname===list.route ? 'bold' : 'normal',  }}>
-                    <ListItemIcon style={{ alignItems: 'center' }}>{list.icon}</ListItemIcon>
+                <SidebarItem button key={list.id} component={Link} to={list.route} className={location.pathname === list.route ? 'active' : ''}>
+                    <ListItemIcon sx={{ alignItems: 'center' }}>{list.icon}</ListItemIcon>
                     <ListItemText primary={list.name} />
-                </ListItem>
+                </SidebarItem>
             ))}
+            <SectionDivider />
             {labels.map(label => (
-                <ListItem button key={label.id} component={Link} to={`/labels/${label.name}`} style={{ textDecoration: 'none', 
-                display: 'flex', 
-                color: 'inherit',
-                backgroundColor: location.pathname===`/labels/${label.name}` ? '#d3dcf8ff' : 'transparent',
-                 }}>
-                    <ListItemIcon style={{ alignItems: 'center' }}><Label /></ListItemIcon>
+                <SidebarItem button key={label.id} component={Link} to={`/labels/${label.name}`} className={location.pathname === `/labels/${label.name}` ? 'active' : ''}>
+                    <ListItemIcon sx={{ alignItems: 'center' }}><Label /></ListItemIcon>
                     <ListItemText primary={label.name} />
-                </ListItem>
+                </SidebarItem>
             ))}
-            <ListItem button onClick={openEditLabels}>
-                <ListItemIcon style={{ alignItems: 'center' }}><Edit /></ListItemIcon>
+            <SectionDivider />
+            <SidebarItem button onClick={openEditLabels}>
+                <ListItemIcon sx={{ alignItems: 'center' }}><Edit /></ListItemIcon>
                 <ListItemText primary="Edit Labels" />
-            </ListItem>
+            </SidebarItem>
         </List>
     )
 }
