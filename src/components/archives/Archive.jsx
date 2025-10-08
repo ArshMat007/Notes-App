@@ -1,38 +1,32 @@
 import { useContext } from 'react';
-import { Card, CardContent, CardActions, Typography } from '@mui/material';
-import { styled } from '@mui/material/styles';
+import { Card, CardContent, CardActions, Typography, IconButton } from '@mui/material';
 import { UnarchiveOutlined as Unarchive, DeleteOutlineOutlined as Delete } from '@mui/icons-material';
 import { DataContext } from '../../context/DataProvider';
-
-const StyledCard = styled(Card)`
-    border: 2px solid #e0e0e0;
-    border-radius: 8px;
-    width: 240px;
-    margin: 8px;
-    box-shadow: none;
-`;
+import '../notes/Note.css';
 
 const Archive = ({ note }) => {
     const { unArchiveNote, deleteNote } = useContext(DataContext);
 
     return (
-        <StyledCard>
+        <Card className="note-card">
             <CardContent>
-                <Typography>{note.heading}</Typography>
-                <Typography dangerouslySetInnerHTML={{ __html: note.text }} />
+                <Typography className="note-title">{note.heading}</Typography>
+                <Typography className="note-content" dangerouslySetInnerHTML={{ __html: note.text }} />
             </CardContent>
             <CardActions>
-                <Unarchive 
-                    fontSize="small" 
-                    style={{ marginLeft: 'auto' }} 
-                    onClick={() => unArchiveNote(note)} // This will now call the context function
-                />
-                <Delete 
-                    fontSize="small"
-                    onClick={() => deleteNote(note)} // This will now call the context function
-                />
+                <IconButton
+                    style={{ marginLeft: 'auto' }}
+                    onClick={() => unArchiveNote(note)}
+                >
+                    <Unarchive fontSize="small" />
+                </IconButton>
+                <IconButton
+                    onClick={() => deleteNote(note)}
+                >
+                    <Delete fontSize="small" />
+                </IconButton>
             </CardActions>
-        </StyledCard>
+        </Card>
     );
 };
 

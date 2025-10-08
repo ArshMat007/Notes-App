@@ -1,9 +1,11 @@
-.note-card {
-  background-color: #2C2C2E; /* Slightly lighter than the main background */
-  border: 1px solid #5f6368;
-  border-radius: 16px;
+.note-card.MuiCard-root {
+  border: 3px solid rgba(242, 217, 217, 0.2);
+  border-radius: 20px;
+  width: 240px;
+  margin: 8px;
+  background-color: #1E1E1E;
   padding: 16px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  box-shadow: 0 1px 6px rgba(180, 178, 178, 0.1);
   transition: all 0.3s cubic-bezier(.25,.8,.25,1);
   display: flex;
   flex-direction: column;
@@ -12,18 +14,18 @@
 }
 
 .note-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+  box-shadow: 0 10px 15px rgba(113, 112, 112, 0.2);
+  transform: translateY(-5px);
 }
 
 .note-title {
-  font-size: 1.1rem;
-  font-weight: 600;
+  font-size: 2.1rem;
+  font-weight: 700;
   color: #e8eaed;
 }
 
 .note-content {
-  font-size: 0.95rem;
+  font-size: 1rem;
   color: #e8eaed;
   white-space: pre-wrap; /* Respects newlines in the note */
 }
@@ -41,14 +43,6 @@
   font-size: 0.75rem;
   color: #e8eaed;
 }
-
-.note-timestamp {
-    font-size: 0.7rem;
-    color: #9aa0a6;
-    text-align: right;
-    margin-top: auto; /* Pushes timestamp to the bottom */
-}
-
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -59,3 +53,4 @@
     transform: scale(1);
   }
 }
+

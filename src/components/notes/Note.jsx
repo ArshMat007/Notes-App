@@ -1,7 +1,7 @@
 // src/components/notes/Note.jsx
 import { useContext, useState } from "react";
 import { Card, CardContent, CardActions, Typography, Chip, Box, IconButton, Popover, List, ListItem, ListItemText, Checkbox, TextField } from "@mui/material";
-import { styled } from "@mui/material/styles";
+
 import './Note.css';
 import {
   ArchiveOutlined as Archive,
@@ -10,18 +10,6 @@ import {
   //EditOutlined as Edit//
 } from "@mui/icons-material";
 import { DataContext } from "../../context/DataProvider";
-
-const StyledCard = styled(Card)`
-  border: 1px solid #2E2E2E;
-  border-radius: 8px;
-  width: 240px;
-  margin: 8px;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-  background-color: #1E1E1E;
-  &:hover {
-    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-  }
-`;
 
 const Note = ({ note }) => {
   const { archiveNote, deleteNote, updateNoteLabels, labels, addLabel } = useContext(DataContext);
@@ -66,9 +54,9 @@ const Note = ({ note }) => {
   }//Called when a label chip’s delete icon is clicked.//
 
   return (
-    <StyledCard className="note-card">
+    <Card className="note-card">
       <CardContent>
-        <Typography className="note-title" sx={{fontWeight: 'bold', fontSize: '1.2rem' }}>{note.heading}</Typography>
+        <Typography className="note-title" style={{fontWeight: 'bold', fontSize: '1.2rem'}}>{note.heading}</Typography>
         <Typography className="note-content" dangerouslySetInnerHTML={{__html: note.text}}/>
         <Box className="note-labels" sx={{ display: 'flex', flexWrap: 'wrap', gap: 0.5, marginTop: 1 }}>
           {note.labels && note.labels.map(labelName => {
@@ -132,14 +120,14 @@ const Note = ({ note }) => {
                 </List>
             </Box>
         </Popover>
-        <Archive
-          fontSize="small"
-          style={{ marginLeft: "auto" }}
-          onClick={(e) => {e.stopPropagation();archiveNote(note)}}
-        />
-        <Delete fontSize="small" onClick={(e) => {e.stopPropagation();deleteNote(note)}} />
+        <IconButton style={{ marginLeft: "auto" }} onClick={(e) => {e.stopPropagation();archiveNote(note)}}>
+        <Archive fontSize="small" />
+        </IconButton>
+        <IconButton onClick={(e) => {e.stopPropagation();deleteNote(note)}}>
+              <Delete fontSize="small" />
+        </IconButton>
       </CardActions>
-    </StyledCard>
+    </Card>
   );
 };
 

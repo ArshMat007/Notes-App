@@ -20,13 +20,14 @@ const DeleteNotes = () => {
         <Box sx={{ display: 'flex', width: '100%' }}>
             <Box sx={{ p: 3, width: '100%' }}>
                 <DrawerHeader />
-                <Grid container>
+                
+                <div className="notes-container">
                     {filteredDeleted.map(note => (
                         <Grid item key={note.id}>
                             <DeleteNote note={note} />
                         </Grid>
                     ))}
-                </Grid>
+                </div>
             </Box>
         </Box>
     );

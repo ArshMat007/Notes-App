@@ -7,6 +7,7 @@ import ListItemButton from '@mui/material/ListItemButton';
 //components
 import HeaderBar from './HeaderBar';
 import NavList from './NavList';
+import { BorderLeft } from '@mui/icons-material';
 
 const drawerWidth = 220;
 
@@ -40,7 +41,7 @@ export const SidebarItem = styled(ListItemButton)(({ theme }) => ({
   display: 'flex',
   alignItems: 'center',
   padding: '10px 22px',
-  borderRadius: '12px',
+  borderRadius: '20px',///
   margin: '4px 12px',
   color: '#e8eaed',
   transition: 'all 0.2s ease-in-out',
@@ -52,7 +53,7 @@ export const SidebarItem = styled(ListItemButton)(({ theme }) => ({
 
   '&.active': {
     backgroundColor: 'rgba(199, 236, 246, 0.15)',
-    borderLeft: '4px solid #bfe8fdff',
+    BorderLeft: '4px solid #bfe8fdff',
     //borderRight: '4px solid #bfe8fdff',
     fontWeight: 600,
   },

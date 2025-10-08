@@ -145,7 +145,7 @@ const DataProvider = ({ children }) => {
     const path = getCollectionPath("notes");
     if (!path) return;
     const noteRef = doc(db, path, note.id);
-    await updateDoc(noteRef, { deleted: false });
+    await updateDoc(noteRef, { deleted: false, archive: false });
   };
 
   const removeNote = async (note) => {

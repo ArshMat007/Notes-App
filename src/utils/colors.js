@@ -1,13 +1,14 @@
 const colors = [
-    'rgba(224, 231, 255, 0.15)',  // light indigo
-    'rgba(219, 234, 254, 0.15)',  // soft blue
-    'rgba(209, 250, 229, 0.15)',  // mint green
-    'rgba(254, 243, 199, 0.15)',  // warm light yellow
-    'rgba(255, 228, 230, 0.15)',  // soft pink
-    'rgba(221, 214, 254, 0.15)',  // lavender
-    'rgba(255, 237, 213, 0.15)',  // peach
-    'rgba(243, 232, 255, 0.15)'   // lilac
+    'rgba(117, 163, 237, 0.25)',  // bright cool blue
+    'rgba(144, 238, 144, 0.25)',  // soft lime green
+    'rgba(255, 202, 40, 0.25)',   // warm amber yellow
+    'rgba(255, 128, 171, 0.25)',  // vibrant pink
+    'rgba(179, 136, 255, 0.25)',  // violet-purple
+    'rgba(255, 167, 38, 0.25)',   // rich orange
+    'rgba(77, 208, 225, 0.25)',   // cyan blue
+    'rgba(244, 143, 177, 0.25)'   // soft rose
 ];
+
 
 
 export const getRandomColor = () => {

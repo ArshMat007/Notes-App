@@ -10,7 +10,7 @@ const theme = createTheme({
       main: '#00C4CC', // Vibrant Cyan
     },
     background: {
-      default: '#2C2C2E',
+      default: '#2C2C2E',//dark charcoal grey
       paper: '#1E1E1E',
     },
     text: {

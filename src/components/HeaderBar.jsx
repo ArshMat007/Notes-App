@@ -12,7 +12,7 @@ import logo from '../Assets/newlogo.png';
 const Header = styled(AppBar)`
     z-index: 1201;   
     background: #2C2C2E;
-    height: 70px;
+    height: 80px;
     box-shadow: inset 0 -1px 0 0 #525355;
 `; // z-index: 1201;  ensures the header is above the sidebar.//
 
@@ -31,7 +31,7 @@ const Search = styled('div')(({ theme }) => ({
     },
     margin: '0 auto',
     width: '100%',
-    maxWidth: '700px',
+    maxWidth: '500px',
 }));
 
 const SearchIconWrapper = styled('div')(({ theme }) => ({
