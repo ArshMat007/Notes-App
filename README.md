@@ -26,9 +26,9 @@ This application includes a robust set of features designed for a seamless and i
 - **Global Label Management**: An "Edit Labels" dialog allows for globally renaming or deleting existing labels. These changes are reflected across all notes that use them.
 
 #### 3. User Authentication
-- **Google Sign-In**: Users can authenticate with their Google account. The application forces account selection on every sign-in attempt, allowing for easy user switching.
+- **Email/Password Authentication**: Users can create a new account with an email and password or sign in to an existing one.
 - **Protected Content**: The main application is protected. Unauthenticated users are presented with a clean login page and cannot view or interact with any notes until they sign in.
-- **Shared Data Model**: In its current implementation, the application uses a basic authentication flow where all authenticated users share and collaborate on the same set of notes. 
+- **Private, User-Specific Data**: Each user has their own private set of notes and labels. Data is securely stored in Firestore under a path associated with the user's unique ID (UID), ensuring that users can only access their own content.
 
 #### 4. Global Search
 - **Live Search**: A search bar in the header allows users to search all notes (including archived and trashed items) in real-time.
@@ -112,7 +112,7 @@ To run this project locally, follow these steps:
 3.  **Set up Firebase:**
     - Go to the [Firebase Console](https://console.firebase.google.com/) and create a new project.
     - Create a **Firestore Database** and start it in **Test Mode**.
-    - Go to the **Authentication** section and enable the **Google** sign-in provider.
+    - Go to the **Authentication** section and enable the **Email/Password** sign-in provider.
     - In your Project Settings, register a new Web App (`</>`) and copy the `firebaseConfig` object.
     - Paste this `firebaseConfig` object into the `src/firebase.js` file.
 

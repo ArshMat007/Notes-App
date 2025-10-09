@@ -12,7 +12,7 @@ import logo from '../Assets/newlogo.png';
 const Header = styled(AppBar)`
     z-index: 1201;   
     background: #2C2C2E;
-    height: 80px;
+    height: 70px;
     box-shadow: inset 0 -1px 0 0 #525355;
 `; // z-index: 1201;  ensures the header is above the sidebar.//
 

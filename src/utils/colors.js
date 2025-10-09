@@ -1,12 +1,11 @@
 const colors = [
-    'rgba(117, 163, 237, 0.25)',  // bright cool blue
-    'rgba(144, 238, 144, 0.25)',  // soft lime green
-    'rgba(255, 202, 40, 0.25)',   // warm amber yellow
-    'rgba(255, 128, 171, 0.25)',  // vibrant pink
-    'rgba(179, 136, 255, 0.25)',  // violet-purple
-    'rgba(255, 167, 38, 0.25)',   // rich orange
-    'rgba(77, 208, 225, 0.25)',   // cyan blue
-    'rgba(244, 143, 177, 0.25)'   // soft rose
+  'rgba(219, 234, 254, 0.3)', // very light blue
+  'rgba(191, 219, 254, 0.3)', // light blue
+  'rgba(147, 197, 253, 0.3)', // soft medium blue
+  'rgba(96, 165, 250, 0.3)',  // medium blue
+  'rgba(59, 130, 246, 0.3)',  // bright blue
+  'rgba(37, 99, 235, 0.3)',   // deep blue
+  'rgba(29, 78, 216, 0.3)'    // dark intense blue
 ];
 
 

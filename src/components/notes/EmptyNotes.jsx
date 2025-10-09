@@ -1,5 +1,4 @@
 
-
 import { LightbulbOutlined as Lightbulb } from '@mui/icons-material';
 import { Typography, Box, styled } from '@mui/material';
 
