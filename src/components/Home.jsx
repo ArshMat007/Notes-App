@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import { Box, Typography } from '@mui/material';
+import { Routes, Route } from 'react-router-dom';
+import { Box } from '@mui/material';
 
 //components
 import SwipeDrawer from './SwipeDrawer';
@@ -20,18 +20,17 @@ const Home = () => {
 
     return (
         <Box style={{ display: 'flex', width: '100%' }}>
-            <Router>
-                <SwipeDrawer openEditLabels={handleOpenEditLabels} />
-                <EditLabels open={openEditLabels} handleClose={() => setOpenEditLabels(false)} />
+            <SwipeDrawer openEditLabels={handleOpenEditLabels} />
+            <EditLabels open={openEditLabels} handleClose={() => setOpenEditLabels(false)} />
+            <Box sx={{ flexGrow: 1, p: 3, width: '100%' }}>
                 <Routes>        
                     <Route path='/' element={<Notes />} />
                     <Route path='/labels' element={<Labels />} />
                     <Route path='/labels/:labelName' element={<Notes />} />
                     <Route path='/archive' element={<Archives />} />
-                    <Route path='/delete' element={<DeleteNotes />} />
-                    <Route path='/todos' element={<Typography>To-do List will be here</Typography>} />
+                    <Route path='/delete' element={<DeleteNotes />} /> 
                 </Routes>
-            </Router>
+            </Box>
         </Box>
     )
 }

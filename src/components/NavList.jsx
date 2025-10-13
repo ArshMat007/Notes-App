@@ -7,6 +7,7 @@ import {
   DeleteOutlineOutlined as Delete,
   LabelOutlined as Label,
   EditOutlined as Edit,
+  Code,
 } from "@mui/icons-material";
 import { DataContext } from '../context/DataProvider';
 import { SidebarItem, SectionDivider } from './SwipeDrawer';
@@ -19,7 +20,8 @@ const NavList = ({ openEditLabels }) => {
     const navList = [
         { id: 1, name: 'Notes', icon: <Lightbulb />, route: '/' },
         { id: 2, name: 'Archives', icon: <Archive />, route: '/archive' },
-        { id: 3, name: 'Trash', icon: <Delete />, route: '/delete' }
+        { id: 3, name: 'Trash', icon: <Delete />, route: '/delete' },
+        { id: 4, name: 'Tailwind Demo', icon: <Code />, route: '/tailwind-demo' } 
     ]
 
     return (

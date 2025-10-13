@@ -82,7 +82,8 @@ The application is built around a centralized state management model powered by 
 │   │   ├── archives/
 │   │   ├── delete/
 │   │   ├── labels/
-│   │   └── notes/
+│   │   ├── notes/
+│   │   └── tailwindDemo/
 │   ├── context/         # React context for global state
 │   ├── utils/           # Utility functions
 │   ├── App.js           # Main application component
@@ -90,6 +91,8 @@ The application is built around a centralized state management model powered by 
 │   └── index.js         # Entry point of the application
 ├── .gitignore
 ├── package.json
+├── postcss.config.js
+├── tailwind.config.js
 └── README.md
 ```
 
